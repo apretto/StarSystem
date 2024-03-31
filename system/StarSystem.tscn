@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://64beajt1hd02"]
+
+[ext_resource type="PackedScene" uid="uid://b38uq5eaelysg" path="res://planet/planet.tscn" id="1_fjgam"]
+[ext_resource type="Script" path="res://addons/orbit_camera/orbit_camera.gd" id="2_22psp"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u1x11"]
+sky_top_color = Color(0.231373, 0.231373, 0.231373, 1)
+sky_horizon_color = Color(0.5, 0.5, 0.5, 1)
+ground_bottom_color = Color(0.333333, 0.333333, 0.333333, 1)
+ground_horizon_color = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="Sky" id="Sky_wq00v"]
+sky_material = SubResource("ProceduralSkyMaterial_u1x11")
+
+[sub_resource type="Environment" id="Environment_4amic"]
+background_mode = 2
+sky = SubResource("Sky_wq00v")
+ambient_light_color = Color(0.34902, 0.34902, 0.34902, 1)
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="StarSystem" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4amic")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Planet" parent="." instance=ExtResource("1_fjgam")]
+radius = 1.0
+subdivisions = 4
+
+[node name="CameraPivot" type="Node3D" parent="."]
+
+[node name="OrbitCamera" type="Camera3D" parent="CameraPivot"]
+script = ExtResource("2_22psp")
+SCROLL_SPEED = 120.0
+ROTATE_SPEED = 0.6
+ANCHOR_NODE_PATH = NodePath("..")
+MOUSE_ZOOM_SPEED = 31.61
